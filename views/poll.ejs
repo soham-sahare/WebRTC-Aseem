@@ -1,0 +1,72 @@
+<br>
+<img src="../ab.JPG" width="200" height="50" style="justify-content: center;"><br><br>
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3" style="color:#4d4144;"><i class="fas fa-sign-in-alt"></i> Create a Poll !</h1>
+      <br>
+      
+      <!-- <% include ./partials/messages %> -->
+      <form action="/poll/create" method="POST">
+        <div class="form-group">
+          <label for="title">Poll Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-control"
+            placeholder="Poll Title"
+          />
+        </div>
+        <div class="form-group">
+          <label for="option1">Option 1</label>
+          <input
+            type="text"
+            id="option1"
+            name="option1"
+            class="form-control"
+            placeholder="Enter Option1"
+          />
+        </div>
+        <div class="form-group">
+            <label for="option2">Option 2</label>
+            <input
+              type="text"
+              id="option2"
+              name="option2"
+              class="form-control"
+              placeholder="Enter Option2"
+            />
+          </div>
+          <div class="form-group">
+            <label for="option3">Option 3</label>
+            <input
+              type="text"
+              id="option3"
+              name="option3"
+              class="form-control"
+              placeholder="Enter Option3"
+            />
+          </div>
+          <div class="form-group">
+            <label for="option4">Option 4</label>
+            <input
+              type="text"
+              id="option4"
+              name="option4"
+              class="form-control"
+              placeholder="Enter Option4"
+            />
+          </div>
+        <button type="submit" class="btn btn-danger btn-block">Create</button>
+      </form>
+
+      <form action="/poll?name=soham" method="POST">
+        <button type="submit" class="btn btn-danger btn-block">POLL</button>
+      </form>
+
+      
+      
+    </div>
+  </div>
+</div>
