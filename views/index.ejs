@@ -6,10 +6,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png" type="image/png" sizes="16x16">
-    <!-- <script src="WebRtcShitBlt.js"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
-    <!-- <script type="text/javascript" src="main.js"></script> -->
-    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>ABHYAST | Aseem</title>
 </head>
@@ -23,12 +19,11 @@
         <div class="container" id="container" style="width: 100%;">
             <div style="width: 100%;" id='meet'></div>
             <button class="button" onclick="reload()">Hangup</button>
-
-            <button class="button" id="numberOfParticipants">Participants</button>
-            <a href="/poll">Create Poll</a>
-
-           
             
+            <a href="/attendance.txt" target="_blank" download="attendance.txt"><button class="button" onclick="attendance_func()">Download Attendance</button></a>
+            <a href="/duration.txt" target="_blank" download="duration.txt"><button class="button" onclick="duration_func()">Download Duration</button></a>
+            <a href="/poll/<%= user.userID %>" target="_blank" class="button" style="color: white;">Polls</a>
+
         </div>
     
         

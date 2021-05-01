@@ -4,10 +4,14 @@ const mongoose = require("mongoose")
 const passport = require("passport")
 const flash = require("connect-flash")
 const session = require("express-session")
+const fs = require('fs'); //file read-write
+fs.writeFile('attendance.txt', '', 'utf8', (err) => { }); //to clear the files initially
+fs.writeFile('duration.txt', '', 'utf8', (err) => { });
+//var mongodb = require('mongodb');
+
 const cors = require('cors')
 const bodyParser = require("body-parser")
 
-//var mongodb = require('mongodb');
 var num = 0
 const app = express()
 
@@ -19,8 +23,15 @@ let http = require("http").Server(app)
 const port = process.env.PORT || 3000
 let io = require("socket.io")(http)
 
-
 app.use(express.static("public"))
+
+app.get('/attendance.txt', function (req, res) {
+    res.download(__dirname + '/attendance.txt', 'attendance.txt');
+})
+
+app.get('/duration.txt', function (req, res) {
+    res.download(__dirname + '/duration.txt', 'duration.txt');
+})
 
 const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require("./utils/users")
 const formatMessage = require("./utils/messages.js")
@@ -70,7 +81,6 @@ app.use(function (req, res, next) {
 // Routes
 app.use("/", require("./routes/index.js"))
 app.use("/users", require("./routes/users.js"))
-app.use("/poll", require("./routes/poll.js"))
 
 // io Connections
 io.on("connection", (socket) => {
@@ -187,6 +197,56 @@ io.on("connection", (socket) => {
         }
 
         console.log("-----CLIENT DISCONNECTED: " + socket.id)
+    })
+
+    socket.on("attendance", (attendance, room_name) => {
+        fs.writeFile(`attendance.txt`, attendance, 'utf8', (err) => { });
+    })
+
+    //get duration of time class was attended by each student
+    socket.on("att_duration", (attendance, room_name, participantCount) => {
+        fs.writeFile('duration.txt', '', 'utf8', (err) => { });
+        lines = []
+        console.log(attendance)
+        lines = attendance.split('\n');
+        console.log(lines.length + 'is len')
+        let diff = 0
+        let done = [];
+
+        for (i = 0; i < (lines.length - 1) / 2; i++) {
+
+            name = lines[i].split(' ').slice(0, 2).join(' ');
+            if (done.includes(name)) {
+                console.log(name)
+                continue;
+            }
+            done.push(name);
+            name_rev = lines[i].split(' ').reverse()
+            //console.log(name_rev)
+            time = name_rev.slice(0, 9).reverse().join(' ');
+            //console.log(lines[i])
+            //console.log(time)
+            time_f1 = Date.parse(time);
+            console.log(time_f1)
+            for (j = i + 1; j < lines.length - 1; j++) {
+                console.log(lines[j] + ' ' + j + 'is j')
+                if (lines[j].split(' ').slice(0, 2).join(' ') == name) {
+
+                    name_revj = lines[j].split(' ').reverse()
+                    //console.log(name_rev)
+                    timej = name_revj.slice(0, 9).reverse().join(' ');
+
+                    //timej = lines[i].split(' ').slice(0,9).join(' ');
+                    console.log('found')
+                    time_f2 = Date.parse(timej);
+                    console.log(time_f2)
+                    diff = (time_f2 - time_f1) / (1000 * 60)
+                }
+            }
+            fs.appendFile(`duration.txt`, name + " time duration attended: " + diff + ' minutes\n', 'utf8', (err) => { });
+            //console.log(diff)
+        }
+
     })
 })
 

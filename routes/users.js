@@ -17,6 +17,20 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('register
 router.post('/register', (req, res) => {
 
 	const { name, email, password, password2 } = req.body;
+
+	function stringGen() {
+		var text = "";
+		var len = 10;
+		var char_list =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		for (var i = 0; i < len; i++) {
+			text += char_list.charAt(Math.floor(Math.random() * char_list.length));
+		}
+		return text;
+	}
+
+	userID = stringGen()
+
 	let errors = [];
 
 	if (!name || !email || !password || !password2) {
@@ -47,10 +61,13 @@ router.post('/register', (req, res) => {
 				});
 			}
 			else {
+
+
 				const newUser = new User({
 					name,
 					email,
-					password
+					password,
+					userID
 				});
 
 				bcrypt.genSalt(10, (err, salt) => {

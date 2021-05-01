@@ -1,48 +1,42 @@
-<br>
-<img src="../ab.JPG" width="200" height="50" style="justify-content: center;"><br><br>
+
 <div class="row mt-5">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
-      <h1 class="text-center mb-3" style="color:#4d4144;"><i class="fas fa-sign-in-alt"></i> Create a Poll !</h1>
-      <br>
+        
       
-      <!-- <% include ./partials/messages %> -->
-      <form action="/poll/create" method="POST">
+      <h1 class="text-center mb-3" style="color:#9e3a55;"><i class="fas fa-sign-in-alt"></i><%= event.title %></h1>
+      
+      <form action="/poll/vote/<%= event.id %>" method="POST">
         <div class="form-group">
-          <label for="title">    <%= title %></label>
-        </div>
-        <div class="form-group">
-          <label for="option1"><%= option1 %></label>
-          <input type="radio" name="poll" id="op1">
-
-        </div>
-        <div class="form-group">
-            <label for="option2"><%= option2 %></label>
-            <input type="radio" name="poll" id="op2">
-
+            <label for="title"></label>
+            
+          <div class="form-group">
+            <label for="option1"><%= event.option1 %></label>
+            <input type="radio" name="userchosen" id="op1" value="op1">
           </div>
           <div class="form-group">
-            <label for="option3"><%= option3 %></label>
-            <input type="radio" name="poll" id="op3">
+              <label for="option2"><%= event.option2 %></label>
+              <input type="radio" name="userchosen" id="op2" value="op2">
+            </div>
+            <div class="form-group">
+              <label for="option3"><%= event.option3 %></label>
+              <input type="radio" name="userchosen" id="op3" value="op3">
+            </div>
+            <div class="form-group">
+              <label for="option4"><%= event.option4 %></label>
+              <input type="radio" name="userchosen" id="op4" value="op4">
+            </div>
+            
+            <%if (myID.userID != event.userID && allowed == "yes") { %>
 
-          </div>
-          <div class="form-group">
-            <label for="option4"><%= option4 %></label>
-            <input type="radio" name="poll" id="op4">
-
-          </div>
-        <button type="submit" class="btn btn-danger btn-block">Submit</button>
+              <button type="submit" class="btn btn-danger btn-block">Submit</button>
+              <% } %>
+              <%if (allowed == "no") { %>
+                <p>Response Already Submitted.</p>
+                <% } %>
+        
+        
       </form>
-
-      <script>
-        document.getElementById("op1").value = "<%= option1 %>"
-        document.getElementById("op2").value = "<%= option2 %>"
-        document.getElementById("op3").value = "<%= option3 %>"
-        document.getElementById("op4").value = "<%= option4 %>"
-
-    </script>
-
-      
       
     </div>
   </div>
